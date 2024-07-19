@@ -2,12 +2,21 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import numpy as np
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load the trained model
 model = joblib.load('studentperfomance.joblib')
 scaler = joblib.load('scaler.joblib')
 # Initialize FastAPI
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Or specify a list of origins that are allowed
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Define the input data schema
 class InputData(BaseModel):
